@@ -44,7 +44,7 @@ class Embedding:
         self.fields = self.fields + [{"name": name, "value": value, "inline": inline}]
     
 
-    def set_footer(self, text: str, icon_url: str = "https://uf-ace.com/static/media/logo-min.1380c5e0.png"):
+    def set_footer(self, text: str, icon_url: str = None):
         self.footer = {"text": text, "icon_url": icon_url}
 
 

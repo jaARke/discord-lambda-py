@@ -1,4 +1,5 @@
 import requests
+import time
 
 
 class Embedding:
@@ -55,6 +56,7 @@ class Interaction:
         self.data = interaction.get("data")
         self.callback_url = f"https://discord.com/api/v10/interactions/{self.id}/{self.token}/callback"
         self.webhook_url = f"https://discord.com/api/v10/webhooks/{app_id}/{self.token}/messages/@original"
+        self.timestamp = time.time()
     
 
     def __create_channel_message(self, content: str = None, embeds: list[Embedding] = None, ephemeral: bool = True) -> dict:

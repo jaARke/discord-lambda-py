@@ -71,7 +71,9 @@ The `InteractionHandler` class is responsible for handling and processing intera
 
 #### Constructor
 
-**`__init__(self, command_dir: str, app_id: str, public_key: str, bot_token: str) -> None`**
+```python
+__init__(self, command_dir: str, app_id: str, public_key: str, bot_token: str) -> None
+```
 
 The constructor initializes an instance of the `InteractionHandler` class.
 
@@ -82,13 +84,17 @@ The constructor initializes an instance of the `InteractionHandler` class.
 
 #### Member Functions
 
-**`__verify_signature(self, event: dict) -> None`**
+```python
+__verify_signature(self, event: dict) -> None
+```
 
 This private method verifies the signature of the incoming event.
 
 - `event`: A dictionary containing the event data.
 
-**`handle(self, event: dict) -> None`**
+```python
+handle(self, event: dict) -> None
+```
 
 This method handles the incoming event and performs necessary actions based on the type of interaction.
 
@@ -106,7 +112,9 @@ The `CommandRegistry` class is responsible for managing commands within an appli
 
 #### Constructor
 
-**`__init__(self, command_dir: str, app_id: str, bot_token: str) -> None`**
+```python
+__init__(self, command_dir: str, app_id: str, bot_token: str) -> None
+```
 
 The constructor initializes an instance of the `CommandRegistry` class.
 
@@ -116,7 +124,9 @@ The constructor initializes an instance of the `CommandRegistry` class.
 
 #### Member Functions
 
-**`__register_commands(self, command_dir: str) -> None`**
+```python
+__register_commands(self, command_dir: str) -> None
+```
 
 This private method registers commands by loading command files from the specified directory.
 
@@ -124,7 +134,9 @@ This private method registers commands by loading command files from the specifi
 
 Throws an `Exception` if there is an error loading a command file.
 
-**`__update_commands(self, app_id: str, bot_token: str) -> None`**
+```python
+__update_commands(self, app_id: str, bot_token: str) -> None
+```
 
 This private method updates the application commands with the Discord API.
 
@@ -133,7 +145,9 @@ This private method updates the application commands with the Discord API.
 
 Throws and `Exception` if there is an error updating the application commands.
 
-**`register_cmd_group(self, name: str, desc: str = None, parent_group: str = None) -> None`**
+```python
+register_cmd_group(self, name: str, desc: str = None, parent_group: str = None) -> None
+```
 
 This method registers a command group.
 
@@ -143,7 +157,9 @@ This method registers a command group.
 
 Throws a `KeyError` if the parent command group does not exist.
 
-**`register_cmd(self, func: callable, name: str, desc: str = None, cmd_group: str = None, sub_cmd_group: str = None, options: list[CommandArg] = None) -> None`**
+```python
+register_cmd(self, func: callable, name: str, desc: str = None, cmd_group: str = None, sub_cmd_group: str = None, options: list[CommandArg] = None) -> None
+```
 
 This method registers a command.
 
@@ -156,7 +172,9 @@ This method registers a command.
 
 Throws an `Exception` if the subcommand group is registered without a parent command group.
 
-**`find_func(self, d: dict) -> tuple[callable, dict]`**
+```python
+find_func(self, d: dict) -> tuple[callable, dict]
+```
 
 This method finds the function associated with a given command.
 
@@ -184,7 +202,9 @@ The `Interaction` class is responsible for parsing and storing interaction data 
 
 #### Constructor
 
-**`__init__(self, interaction: dict, app_id: str) -> None`**
+```python
+__init__(self, interaction: dict, app_id: str) -> None
+```
 
 The constructor method initializes an instance of the `Interaction` class.
 
@@ -193,7 +213,9 @@ The constructor method initializes an instance of the `Interaction` class.
 
 #### Member Functions
 
-**`__create_channel_message(self, content: str = None, embeds: list[Embedding] = None, ephemeral: bool = True) -> dict`**
+```python
+__create_channel_message(self, content: str = None, embeds: list[Embedding] = None, ephemeral: bool = True) -> dict
+```
 
 This private method creates a dictionary representing a channel message that can be sent as a response or follow-up.
 
@@ -204,7 +226,9 @@ This private method creates a dictionary representing a channel message that can
 Returns:
 - `response`: A dictionary representing the channel message.
 
-**`send_response(self, content: str = None, embeds: list[Embedding] = None, ephemeral: bool = True) -> None`**
+```python
+send_response(self, content: str = None, embeds: list[Embedding] = None, ephemeral: bool = True) -> None
+```
 
 This method sends a response to the interaction by updating the original message.
 
@@ -212,7 +236,9 @@ This method sends a response to the interaction by updating the original message
 - `embeds`: A list of `Embedding` objects representing embedded content in the response message. Default is `None`.
 - `ephemeral`: A boolean indicating whether the response should be ephemeral (visible only to the user who triggered the interaction). Default is `True`.
 
-**`send_followup(self, content: str = None, embeds: list[Embedding] = None, ephemeral: bool = True) -> None`**
+```python
+send_followup(self, content: str = None, embeds: list[Embedding] = None, ephemeral: bool = True) -> None
+```
 
 This method sends a follow-up message as a response to the interaction.
 
@@ -236,7 +262,9 @@ The `Embedding` class is responsible for parsing and storing embedded content da
 
 #### Constructor
 
-**`__init__(self, title: str = "", desc: str = "", url: str = "", color: int = "", fields: list[dict] = [], footer: dict = {})`**
+```python
+__init__(self, title: str = "", desc: str = "", url: str = "", color: int = "", fields: list[dict] = [], footer: dict = {})
+```
 
 The constructor method initializes an instance of the `Embedding` class.
 
@@ -249,38 +277,50 @@ The constructor method initializes an instance of the `Embedding` class.
 
 #### Member Functions
 
-**`to_dict(self) -> dict`**
+```python
+to_dict(self) -> dict
+```
 
 This method converts the `Embedding` object into a dictionary format that can be easily serialized.
 
 Returns:
 - `dict`: A dictionary representation of the `Embedding` object.
 
-**`set_title(self, title: str) -> None`**
+```python
+set_title(self, title: str) -> None
+```
 
 This method sets the title of the embedding.
 
 - `title`: A string representing the title to be set for the embedding.
 
-**`set_description(self, desc: str) -> None`**
+```python
+set_description(self, desc: str) -> None
+```
 
 This method sets the description of the embedding.
 
 - `desc`: A string representing the description to be set for the embedding.
 
-**`set_url(self, url: str) -> None`**
+```python
+set_url(self, url: str) -> None
+```
 
 This method sets the URL associated with the embedding.
 
 - `url`: A string representing the URL to be set for the embedding.
 
-**`set_color(self, color: int) -> None`**
+```python
+set_color(self, color: int) -> None
+```
 
 This method sets the color code of the embedding.
 
 - `color`: An integer representing the color code to be set for the embedding.
 
-**`add_field(self, name: str, value: str, inline: bool) -> None`**
+```python
+add_field(self, name: str, value: str, inline: bool) -> None
+```
 
 This method adds a field to the embedding.
 
@@ -288,7 +328,9 @@ This method adds a field to the embedding.
 - `value`: A string representing the value of the field.
 - `inline`: A boolean indicating whether the field should be displayed inline or not.
 
-**`set_footer(self, text: str, icon_url: str = None) -> None`**
+```python
+set_footer(self, text: str, icon_url: str = None) -> None
+```
 
 This method sets the footer of the embedding.
 
@@ -306,7 +348,9 @@ The `CommandArg` class represents a command argument that can be used within a c
 
 #### Constructor
 
-**`__init__(self, name: str, desc: str, type: int, required: bool = True, choices: list[Choice] = None) -> None`**
+```python
+__init__(self, name: str, desc: str, type: int, required: bool = True, choices: list[Choice] = None) -> None
+```
 
 The constructor initializes an instance of the `CommandArg` class.
 
@@ -318,7 +362,9 @@ The constructor initializes an instance of the `CommandArg` class.
 
 #### Member Functions
 
-**`to_dict(self) -> dict`**
+```python
+to_dict(self) -> dict
+```
 
 This method converts the `CommandArg` object into a dictionary format that can be easily serialized.
 

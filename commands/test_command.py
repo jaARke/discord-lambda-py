@@ -9,6 +9,4 @@ def test_command(inter: Interaction, input: str) -> None:
 def setup(registry: CommandRegistry) -> None:
     registry.register_cmd(func=test_command, name="test", desc="Test command", options=[
         CommandArg(name="input", desc="Add some input to the command!", type=CommandArg.Types.STRING)
-        ]) 
-
-
+    ])

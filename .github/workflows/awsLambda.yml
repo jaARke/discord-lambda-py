@@ -2,7 +2,7 @@ name: Deploy to Lambda
 
 on:
   push:
-    branches: []  # Branches to trigger workflow on push
+    branches: []  # TODO: Branches to trigger workflow on push
 
 jobs:
   upload_deps:
@@ -18,7 +18,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
+          aws-region: # TODO: AWS region to deploy to
 
       - name: Setup Python 3.9
         uses: actions/setup-python@v1
@@ -27,10 +27,10 @@ jobs:
 
       - name: Zip it all up and upload to S3
         env:
-          release_bucket: # Name of the S3 bucket to upload the release to
-          release_bucket_uri: # URI of the S3 bucket to upload the release to
-          release_id: # Name of the release file
-          release_layer: # Name of the layer to upload the release to
+          release_bucket: # TODO: Name of the S3 bucket to upload the release to
+          release_bucket_uri: # TODO: URI of the S3 bucket to upload the release to
+          release_id: # TODO: Name of the release file
+          release_layer: # TODO: Name of the Lambda layer to upload the release to
         run: |
           mkdir -p python/lib/python3.9/site-packages
           docker run -v "$PWD":/var/task "public.ecr.aws/sam/build-python3.9" /bin/sh -c "pip install -r requirements.txt -t python/lib/python3.9/site-packages/; exit"
@@ -70,8 +70,8 @@ jobs:
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-east-2
-          function_name: # Name of the lambda function to deploy to
+          aws_region: # TODO: AWS region to deploy to
+          function_name: # TODO: Name of the lambda function to deploy to
           zip_file: bundle.zip
       
 

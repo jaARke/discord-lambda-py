@@ -3,7 +3,10 @@ import time
 
 
 def test_command(inter: Interaction, input: str) -> None:
-    inter.send_response(content=f"Hello, {input}", embeds=[Embedding(title="Test", desc="This is a test embed!", footer=f"Request completed in {round(time.time() - inter.timestamp, 2)}s")])
+    inter.send_response(content=f"Hello, {input}",
+                        embeds=[Embedding(title="Test",
+                                          desc="This is a test embed!",
+                                          footer=f"Request completed in {round(time.time() - inter.timestamp, 2)}s")])
 
 
 def setup(registry: CommandRegistry) -> None:

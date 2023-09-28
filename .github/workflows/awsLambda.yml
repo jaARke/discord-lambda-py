@@ -35,8 +35,6 @@ jobs:
           function_name: # TODO: Name of the Lambda function to update
           APP_ID: ${{ secrets.APP_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          # TODO: Add any other environment variables here, accessing them with ${{ secrets.VARIABLE_NAME }}
-          # Make sure they are added to your repo as GitHub secrets
         run: |
           # Package up the dependencies
           mkdir -p python/lib/python3.9/site-packages
@@ -85,7 +83,11 @@ jobs:
           aws_region: # TODO: AWS region to deploy to
           function_name: # TODO: Name of the Lambda function to deploy to
           zip_file: bundle.zip
-          environment: APP_ID=${{ secrets.APP_ID }},PUBLIC_KEY=${{ secrets.PUBLIC_KEY }}
+          environment: 
+            APP_ID=${{ secrets.APP_ID }},
+            PUBLIC_KEY=${{ secrets.PUBLIC_KEY }},
+            # Add your environment variables below in the same format as above
+
 
       
 

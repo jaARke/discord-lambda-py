@@ -34,7 +34,6 @@ jobs:
           release_layer: # TODO: Name of the Lambda layer to upload the release to
           function_name: # TODO: Name of the Lambda function to update
           APP_ID: ${{ secrets.APP_ID }}
-          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           # TODO: Add any other environment variables here, accessing them with ${{ secrets.VARIABLE_NAME }}
           # Make sure they are added to your repo as GitHub secrets
@@ -44,7 +43,7 @@ jobs:
 
           docker run -v "$PWD":/var/task "public.ecr.aws/sam/build-python3.9" /bin/sh -c "pip install -r requirements.txt -t python/lib/python3.9/site-packages/; exit"
 
-          PYTHONPATH=python/lib/python3.9/site-packages python -m discord_lambda.InteractionHandlerPickler
+          PYTHONPATH=python/lib/python3.9/site-packages python -m discord_lambda.CommandRegistryPickler
 
           zip --quiet -r $release_id python InteractionHandler.pickle
 
@@ -86,6 +85,8 @@ jobs:
           aws_region: # TODO: AWS region to deploy to
           function_name: # TODO: Name of the Lambda function to deploy to
           zip_file: bundle.zip
+          environment: APP_ID=${{ secrets.APP_ID }},PUBLIC_KEY=${{ secrets.PUBLIC_KEY }}
+
       
 
       

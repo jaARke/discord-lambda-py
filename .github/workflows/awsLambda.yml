@@ -3,6 +3,7 @@ name: Deploy to Lambda
 on:
   push:
     branches: []  # TODO: Branches to trigger workflow on push
+  workflow_dispatch:
 
 jobs:
   upload_deps:

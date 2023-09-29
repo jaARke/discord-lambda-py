@@ -1,5 +1,5 @@
 # Discord Lambda Py
-A template for Discord bot creation using AWS Lambda and API Gateway. This project attempts to adapt the [discord.py](https://github.com/Rapptz/discord.py) library to work in a serverless environment. Development is ongoing, and the template curently only supports slash command interactions.
+A template for Discord bot creation using AWS Lambda and API Gateway. This project attempts to offer similar functionality as the [`slash-create`](https://github.com/Snazzah/slash-create) JavaScript library but in a serverless, Python environment.
 
 An example project leveraging this template can be found [here](https://github.com/UF-ACE/stock-prediction).
 
@@ -13,11 +13,8 @@ An example project leveraging this template can be found [here](https://github.c
 
 ### AWS
 1. Follow [this tutorial](https://oozio.medium.com/serverless-discord-bot-55f95f26f743) to setup the Lambda environment, but do not add code to the default Lambda function. This will be done automatically by the template.
+    * Set your API Gateway to edge-optimized to avoid timeout errors.
     * Be sure to specify your API Gateway's URI as your Interactions Endpoint URL in the Discord developer portal.
-    * When done, add the following environment variables to your Lambda function (under "Configuration" -> "Environment variables"):
-        * `APP_ID=DISCORD_APP_ID`: Your Discord application ID.
-        * `PUBLIC_KEY=DISCORD_PUBLIC_KEY`: Your application's public key.
-        * `BOT_TOKEN=DISCORD_BOT_TOKEN`: Your bot's token.
 2. Follow [this tutorial](https://medium.com/@shamnad.p.s/how-to-create-an-s3-bucket-and-aws-access-key-id-and-secret-access-key-for-accessing-it-5653b6e54337) to setup an S3 bucket and keys for accessing it. Be sure to:
     * Give the IAM user full access to S3.
     * Copy the access key ID and secret access key and save them for later.
@@ -25,13 +22,16 @@ An example project leveraging this template can be found [here](https://github.c
 
 ### GitHub
 1. Create a new repository using this template.
-2. Add S3 keys to your repository's secrets (under "Settings" -> "Secrets").
+2. Add the following to your repository's secrets (under "Settings" -> "Secrets").
     * `AWS_ACCESS_KEY_ID`: The access key id for your S3 bucket.
     * `AWS_SECRET_ACCESS_KEY`: The secret access key id for your S3 bucket.
+    * `APP_ID`: The ID of your Discord application.
+    * `PUBLIC_KEY`: The public key of your Discord application.
+    * `BOT_TOKEN`: The token of your Discord bot.
 2. Clone your new repository.
 3. Fill out necessary fields in `.github/workflows/awsLambda.yml`. These fields are marked with `TODO` comments.
     * See [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) for a list of region codes.
-4. Push your changes to GitHub. This will trigger the workflow, which will deploy your Lambda function.
+4. Push your changes to GitHub. This will trigger the workflow, which will deploy your Lambda function if everything is setup correctly.
 
 ## Development
 ### Adding Commands
@@ -50,7 +50,22 @@ An example project leveraging this template can be found [here](https://github.c
     ```
 4. Use the `registry` object to register your command functions. See Class Reference below for more information.
 
-**NOTE:** Add any command function dependencies to `requirements.txt` to ensure they are installed when the Lambda function is deployed.
+### Using Python Packages
+Any additional packages leveraged by your commands should be added to `requirements.txt`. The deployment workflow will automatically upload these packages as a layer to your Lambda function.
+
+### Using Environment Variables
+If your custom commands require environment variables, follow these steps:
+
+1. Add your environment variables as GitHub secrets on your repository.
+2. Add those variables below [this line](https://github.com/jaARke/discord-lambda-py/blob/6712bd3a5e4b2fb69380898bc6b3f756205f4e08/.github/workflows/awsLambda.yml#L90) in `.github/workflows/awsLambda.yml`.
+3. Access your environment variables in your commands using `os.environ.get("ENV_VAR_NAME")`.
+
+This will ensure that your variables are forwarded to the Lambda function when it is deployed.
+
+### Syncing to this Template
+This template provides a workflow, `.github/workflows/syncToTemplate.yml`, that can be used to sync your repository with this template. By default, this workflow runs at 5:17am every Friday. To change this, edit [this line](https://github.com/jaARke/discord-lambda-py/blob/6712bd3a5e4b2fb69380898bc6b3f756205f4e08/.github/workflows/syncToTemplate.yml#L6). Alternatively, you can manually trigger the workflow by going to "Actions" -> "Sync to Template" -> "Run workflow".
+
+This workflow will automatically merge any template changes without overwriting any custom commands. It will then open a pull request with the changes. Afterwards, you can review the changes and merge them into your repository.
 
 ## Usage
 1. Go to the "OAuth2" tab in your Discord application's settings.
@@ -60,51 +75,11 @@ An example project leveraging this template can be found [here](https://github.c
 5. Navigate to the server and type `/` in the message box. You should see a list of commands registered to your application.
 
 ## Class Reference
-### InteractionHandler
-The `InteractionHandler` class is responsible for handling and processing interactions received from an external service. It provides functionality to verify the signature of the incoming events, handle various types of interactions, and execute corresponding commands. This documentation will cover the class attributes and member functions, along with their respective parameters.
-
-#### Class Attributes
-
-- `app_id`: A string representing the ID of the application associated with the interactions.
-- `public_key`: A string representing the public key used for signature verification.
-- `registry`: An instance of the `CommandRegistry` class for managing commands.
-
-#### Constructor
-
-```python
-__init__(self, command_dir: str, app_id: str, public_key: str, bot_token: str) -> None
-```
-
-The constructor initializes an instance of the `InteractionHandler` class.
-
-- `command_dir`: A string representing the directory where command files are located.
-- `app_id`: A string representing the ID of the application associated with the interactions.
-- `public_key`: A string representing the public key used for signature verification.
-- `bot_token`: A string representing the token for the bot account.
-
-#### Member Functions
-
-```python
-__verify_signature(self, event: dict) -> None
-```
-
-This private method verifies the signature of the incoming event.
-
-- `event`: A dictionary containing the event data.
-
-```python
-handle(self, event: dict) -> None
-```
-
-This method handles the incoming event and performs necessary actions based on the type of interaction.
-
-- `event`: A dictionary containing the event data.
-
-Throws an `Exception` if the signature verification fails or if the command is not found.
-
 ### CommandRegistry
 
 The `CommandRegistry` class is responsible for managing commands within an application. It provides functionality to register, update, and find commands. This documentation will cover the class attributes and member functions, along with their respective parameters.
+
+A single `CommandRegistry` object is created when the Lambda function is deployed. During initialization, this object syncs your commands with Discord. It is then serialized and stored in a Lambda layer to be used by the deployed function. This allows the function to access the `CommandRegistry` object without having to reinitialize it on every invocation.
 
 #### Class Attributes
 
@@ -184,8 +159,6 @@ Returns:
 - A tuple containing the callable function and a dictionary of command arguments.
 
 Throws a `KeyError` if the command is not found and an `AssertionError` if the command function is not callable.
-
-Please note that the `CommandArg` class is referenced in the code snippet but not provided. You may need to define or import this class separately for the code to function correctly.
 
 ### Interaction
 The `Interaction` class is responsible for parsing and storing interaction data and provides member functions to respond to these interactions. This documentation will explain the purpose of each class attribute and member function, along with their respective parameters.

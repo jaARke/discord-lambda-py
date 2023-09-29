@@ -187,6 +187,18 @@ The constructor method initializes an instance of the `Interaction` class.
 #### Member Functions
 
 ```python
+ping_response(self) -> None
+```
+
+This method responds to a ping interaction from the Discord API. Such interactions are used by Discord to verify that the bot is responding to interactions.
+
+```python
+defer(self) -> None
+```
+
+This method defers the interaction so that a response can be sent later. After an interaction is deferred, a response will need to be sent within 15 minutes to avoid timeout.
+
+```python
 __create_channel_message(self, content: str = None, embeds: list[Embedding] = None, ephemeral: bool = True) -> dict
 ```
 

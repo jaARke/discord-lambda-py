@@ -7,18 +7,21 @@ An example project leveraging this template can be found [here](https://github.c
 ### Discord
 1. Activate developer mode on your Discord account.
 2. Create a new application [here](https://discord.com/developers/applications).
-3. Copy your application ID and public key and save them for later.
-3. Navigate to the "Bot" tab and create a new bot.
+3. Copy your Application ID and Public Key and save them for later.
+3. Navigate to the "Bot" tab and select "Reset Token".
 4. Copy your bot's token and save it for later.
+5. Navigate to the "Oauth2" tab and select "URL Generator".
+6. Select the `applications.commands` scope and paste the generated URL into your browser.
+7. Add your bot to your desired server.
 
 ### AWS
-1. Follow [this tutorial](https://oozio.medium.com/serverless-discord-bot-55f95f26f743) to setup the Lambda environment, but do not add code to the default Lambda function. This will be done automatically by the template.
-    * Set your API Gateway to edge-optimized to avoid timeout errors.
-    * Be sure to specify your API Gateway's URI as your Interactions Endpoint URL in the Discord developer portal.
+1. Follow [this tutorial](https://oozio.medium.com/serverless-discord-bot-55f95f26f743) to setup the Lambda environment, but do not add any code to the default Lambda function. This will be done automatically by the template.
+    * Set your API Gateway endpoint type to edge-optimized to avoid timeout errors.
+    * Make note of your API endpoint.
 2. Follow [this tutorial](https://medium.com/@shamnad.p.s/how-to-create-an-s3-bucket-and-aws-access-key-id-and-secret-access-key-for-accessing-it-5653b6e54337) to setup an S3 bucket and keys for accessing it. Be sure to:
     * Give the IAM user full access to S3.
-    * Copy the access key ID and secret access key and save them for later.
-    * Copy the S3 bucket's name and URI and save it for later.
+    * Copy the Access Key ID and secret access key and save them for later.
+    * Copy the S3 bucket's name and URI (s3://<bucket-name>) and save it for later.
 
 ### GitHub
 1. Create a new repository using this template.
@@ -32,6 +35,8 @@ An example project leveraging this template can be found [here](https://github.c
 3. Fill out necessary fields in `.github/workflows/awsLambda.yml`. These fields are marked with `TODO` comments.
     * See [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) for a list of region codes.
 4. Push your changes to GitHub. This will trigger the workflow, which will deploy your Lambda function if everything is setup correctly.
+
+Once your function is deployed, navigate back to the Discord Developer Portal and paste your API endpoint into the "Interactions Endpoint URL" field on your application's homepage. You should now be able to issue commands in the server you added the bot to.
 
 ## Development
 ### Adding Commands

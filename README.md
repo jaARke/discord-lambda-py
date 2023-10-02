@@ -26,8 +26,8 @@ An example project leveraging this template can be found [here](https://github.c
 ### GitHub
 1. Create a new repository using this template.
 2. Add the following to your repository's secrets (under "Settings" -> "Secrets").
-    * `AWS_ACCESS_KEY_ID`: The access key id for your S3 bucket.
-    * `AWS_SECRET_ACCESS_KEY`: The secret access key id for your S3 bucket.
+    * `AWS_ACCESS_KEY_ID`: Your AWS Access Key ID.
+    * `AWS_SECRET_ACCESS_KEY`: Your AWS Secret Access Key.
     * `APP_ID`: The ID of your Discord application.
     * `PUBLIC_KEY`: The public key of your Discord application.
     * `BOT_TOKEN`: The token of your Discord bot.

@@ -4,6 +4,7 @@ A template for Discord bot creation using AWS Lambda and API Gateway. This proje
 An example project leveraging this template can be found [here](https://github.com/UF-ACE/stock-prediction).
 
 ## Setup
+To get started quickly, watch this [video walkthrough](https://www.youtube.com/watch?v=iUAjpSlJrgU), which shows each of the setup steps described below.
 ### Discord
 1. Activate developer mode on your Discord account.
 2. Create a new application [here](https://discord.com/developers/applications).
